@@ -10,3 +10,10 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 URL: https://github.com/Projeto-CNPq-Clima/STprocHawkes
 BugReports: https://github.com/Projeto-CNPq-Clima/STprocHawkes/issues
+Imports: 
+    MASS,
+    stats,
+    utils
+Depends: 
+    R (>= 3.5)
+LazyData: true

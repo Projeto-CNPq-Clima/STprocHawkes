@@ -16,6 +16,7 @@ You can install the development version of STprocHawkes from
 ``` r
 # install.packages("pak")
 pak::pak("Projeto-CNPq-Clima/STprocHawkes")
+library(STprocHawkes)
 ```
 
 ## Example

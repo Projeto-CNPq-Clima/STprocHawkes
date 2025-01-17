@@ -31,7 +31,23 @@ STModelHawkesMCMC(
 
 \item{Xu}{A matrix of covariates associated with the \(U\) process. Defaults to the same as \code{Xw}.}
 
-\item{prior}{A list of hyperparameters defining the prior distributions in the model.}
+\item{prior}{A list of hyperparameters defining the prior distributions in the model:
+\itemize{
+\item \code{Aw}: Mean vector for the normal prior \eqn{\Psi_W \sim N(Aw, Bw)}.
+\item \code{Bw}: Covariance matrix for the normal prior \eqn{\Psi_W}.
+\item \code{Am}: Mean vector for the normal prior \eqn{\Psi_M \sim N(Am, Bm)}.
+\item \code{Bm}: Covariance matrix for the normal prior \eqn{\Psi_M}.
+\item \code{Au}: Mean vector for the normal prior\eqn{\Psi_U \sim N(Au, Bu)}.
+\item \code{Bu}: Covariance matrix for the normal prior \eqn{\Psi_U}.
+\item \code{Aa}: Shape parameter for the prior \eqn{Bj \sim Aa \cdot Z}, where \eqn{Z \sim \text{Beta}(\tau \cdot \nu, (1-\tau) \cdot \nu)}, and \eqn{\tau \sim \text{Beta}(0.5, 0.5)}.
+\item \code{Nu}: Rate parameter for the Beta distribution in \eqn{Bj}.
+\item \code{aaw}, \code{bbw}: Shape and rate parameters for the inverse gamma prior \eqn{\sigma^2_w \sim \mathrm{InvGamma}(aaw, bbw)}.
+\item \code{aam}, \code{bbm}: Shape and rate parameters for the inverse gamma prior \eqn{\sigma^2_m \sim \mathrm{InvGamma}(aam, bbm)}.
+\item \code{aau}, \code{bbu}: Shape and rate parameters for the inverse gamma prior \eqn{\sigma^2_u \sim \mathrm{InvGamma}(aau, bbu)}.
+\item \code{aa1w}, \code{bb1w}: Shape and rate parameters for the inverse gamma prior \eqn{\phi_w \sim \mathrm{InvGamma}(aa1w, bb1w)}.
+\item \code{aa1m}, \code{bb1m}: Shape and rate parameters for the inverse gamma prior \eqn{\phi_m \sim \mathrm{InvGamma}(aa1m, bb1m)}.
+\item \code{aa1u}, \code{bb1u}: Shape and rate parameters for the inverse gamma prior \eqn{\phi_u \sim \mathrm{InvGamma}(aa1u, bb1u)}.
+}}
 
 \item{iteration}{Number of MCMC iterations. Defaults to 1000.}
 
@@ -50,4 +66,17 @@ A list containing:
 \description{
 This function estimates the parameters of a spatio-temporal Hawkes model
 using Markov Chain Monte Carlo (MCMC) methods.
+}
+\details{
+The spatio-temporal Hawkes model is a self-exciting point process that accounts for both spatial and temporal dependencies in the data. This function utilizes MCMC to estimate the model parameters, where prior distributions are defined for all parameters to capture uncertainty and regularization.
+
+The model parameters include:
+\itemize{
+\item \eqn{\Psi_W}, \eqn{\Psi_M}, and \eqn{\Psi_U}: Coefficients for the \eqn{W}, \eqn{M}, and \eqn{U} processes, respectively.
+\item \eqn{\sigma^2_w}, \eqn{\sigma^2_m}, and \eqn{\sigma^2_u}: Variance parameters for the \eqn{W}, \eqn{M}, and \eqn{U} processes.
+\item \eqn{\phi_w}, \eqn{\phi_m}, and \eqn{\phi_u}: Range parameters for the spatial correlation in the \eqn{W}, \eqn{M}, and \eqn{U} processes.
+\item \eqn{B_j}: Temporal decay parameters modeled with a hierarchical prior.
+}
+
+The function requires input for event times, geographic locations, and covariates, while allowing flexible customization of priors and sampling parameters.
 }

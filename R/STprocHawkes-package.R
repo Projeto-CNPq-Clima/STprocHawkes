@@ -8,6 +8,7 @@
 #' @importFrom stats dist
 #' @importFrom stats rbeta
 #' @importFrom stats rgamma
+#' @importFrom stats rnorm
 #' @importFrom stats runif
 #' @importFrom utils data
 ## usethis namespace: end

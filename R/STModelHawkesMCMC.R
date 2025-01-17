@@ -9,7 +9,21 @@
 #' @param Xw A matrix of covariates associated with the \(W\) process. Defaults to a matrix combining an intercept and `sites`.
 #' @param Xm A matrix of covariates associated with the \(M\) process. Defaults to the same as `Xw`.
 #' @param Xu A matrix of covariates associated with the \(U\) process. Defaults to the same as `Xw`.
-#' @param prior A list of hyperparameters defining the prior distributions in the model.
+#' @param prior A list of hyperparameters defining the prior distributions in the model:
+#'   - `Aw`: Mean vector for the normal prior \eqn{\Psi_W \sim N(Aw, Bw)}.
+#'   - `Bw`: Covariance matrix for the normal prior \eqn{\Psi_W}.
+#'   - `Am`: Mean vector for the normal prior \eqn{\Psi_M \sim N(Am, Bm)}.
+#'   - `Bm`: Covariance matrix for the normal prior \eqn{\Psi_M}.
+#'   - `Au`: Mean vector for the normal prior\eqn{\Psi_U \sim N(Au, Bu)}.
+#'   - `Bu`: Covariance matrix for the normal prior \eqn{\Psi_U}.
+#'   - `Aa`: Shape parameter for the prior \eqn{Bj \sim Aa \cdot Z}, where \eqn{Z \sim \text{Beta}(\tau \cdot \nu, (1-\tau) \cdot \nu)}, and \eqn{\tau \sim \text{Beta}(0.5, 0.5)}.
+#'   - `Nu`: Rate parameter for the Beta distribution in \eqn{Bj}.
+#'   - `aaw`, `bbw`: Shape and rate parameters for the inverse gamma prior \eqn{\sigma^2_w \sim \mathrm{InvGamma}(aaw, bbw)}.
+#'   - `aam`, `bbm`: Shape and rate parameters for the inverse gamma prior \eqn{\sigma^2_m \sim \mathrm{InvGamma}(aam, bbm)}.
+#'   - `aau`, `bbu`: Shape and rate parameters for the inverse gamma prior \eqn{\sigma^2_u \sim \mathrm{InvGamma}(aau, bbu)}.
+#'   - `aa1w`, `bb1w`: Shape and rate parameters for the inverse gamma prior \eqn{\phi_w \sim \mathrm{InvGamma}(aa1w, bb1w)}.
+#'   - `aa1m`, `bb1m`: Shape and rate parameters for the inverse gamma prior \eqn{\phi_m \sim \mathrm{InvGamma}(aa1m, bb1m)}.
+#'   - `aa1u`, `bb1u`: Shape and rate parameters for the inverse gamma prior \eqn{\phi_u \sim \mathrm{InvGamma}(aa1u, bb1u)}.
 #' @param iteration Number of MCMC iterations. Defaults to 1000.
 #' @param burnin Number of iterations for the burn-in period. Defaults to 900.
 #' @param jump Thinning parameter for the MCMC sampling. Defaults to 10.
@@ -18,6 +32,17 @@
 #'   - Estimated parameters for the spatio-temporal Hawkes model.
 #'   - MCMC samples for each parameter.
 #'   - Convergence diagnostics and summary statistics.
+#'
+#' @details
+#' The spatio-temporal Hawkes model is a self-exciting point process that accounts for both spatial and temporal dependencies in the data. This function utilizes MCMC to estimate the model parameters, where prior distributions are defined for all parameters to capture uncertainty and regularization.
+#'
+#' The model parameters include:
+#'   - \eqn{\Psi_W}, \eqn{\Psi_M}, and \eqn{\Psi_U}: Coefficients for the \eqn{W}, \eqn{M}, and \eqn{U} processes, respectively.
+#'   - \eqn{\sigma^2_w}, \eqn{\sigma^2_m}, and \eqn{\sigma^2_u}: Variance parameters for the \eqn{W}, \eqn{M}, and \eqn{U} processes.
+#'   - \eqn{\phi_w}, \eqn{\phi_m}, and \eqn{\phi_u}: Range parameters for the spatial correlation in the \eqn{W}, \eqn{M}, and \eqn{U} processes.
+#'   - \eqn{B_j}: Temporal decay parameters modeled with a hierarchical prior.
+#'
+#' The function requires input for event times, geographic locations, and covariates, while allowing flexible customization of priors and sampling parameters.
 #'
 #' @export
 STModelHawkesMCMC<-function(data, sites,Xw=as.matrix(cbind(as.matrix(rep(1,n)),sites)),Xm=Xw,Xu=Xw,

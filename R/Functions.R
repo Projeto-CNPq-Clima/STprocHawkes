@@ -433,3 +433,49 @@ SampleTau=function(tau,nu,Beta,A,atau,btau,ff){
 
 
 }
+
+
+################# interpolate mean ########
+#
+Tempos=function(tt,tat){
+
+  if(tt<tat[1]){
+
+    return(tt)
+
+  }
+
+  cont=1
+  output=NULL
+
+
+  while((tt>tat[cont])&(cont<length(tat))){
+
+    output=c(output,tat[cont])
+    cont=cont+1
+  }
+
+  output=c(output,tt)
+  output
+}
+#
+
+FunW=function(MatD,p){
+
+  output=(1/MatD^p)/sum(1/MatD^p)
+  output
+
+}
+
+#
+
+MeanFunction=function(gam,eta,alpha,beta,t,tant){
+
+
+  output=gam*t^eta+(alpha/beta)*((length(tant)-R(tant,beta)))
+  output
+
+
+}
+#
+
